@@ -1,1 +1,2 @@
 # gambit
+The aim of this project is to investigate the scaling properties of language models when they go beyond their training data. We'll do this by training a series of language models on chess [PGN](https://www.chess.com/terms/chess-pgn) data with an ELO cap, then trying to surpass the ELO cap. We'll try this in two ways: (1) generalisation on the ELO value used to condition the model, and (2) using MCTS to improve the resulting model. This should give a compute/ELO scaling plot with the pretraining dataset ELO cap somewhere in the middle.
