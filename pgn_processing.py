@@ -74,3 +74,9 @@ def remove_repeated_turn_number(movetext):
     turn_marker = r'[0-9]*\.\.\.'
     cleaned_pgn = re.sub(turn_marker, '', movetext)
     return cleaned_pgn
+
+
+def clean_whitespace(movetext):
+    # replace all multiple spaces with single space
+    movetext = re.sub(r'\s+', ' ', movetext)
+    return movetext
