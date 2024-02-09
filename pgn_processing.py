@@ -19,12 +19,11 @@ def is_terminating(line):
     else:
         return False
     
-def parse_pgnfile(pgnpath):
-    """Parses a pgn file and returns a list of gameresult dicts."""
+def make_game_iterator(pgnpath):
+    """Creates an iterator for games in a given pgn path"""
     is_movetext = False
     movetext = ""
     gamedata = {}
-    gamedatas = []
     with open(pgnpath, "r") as infile:
         for line in infile:
             line = line.strip("\n")
@@ -46,11 +45,9 @@ def parse_pgnfile(pgnpath):
             if is_terminating(line):  # game's finished, so store & reset
                 assert line.split(" ")[-1] == gamedata["Result"]  # consistency check
                 gamedata["movetext"] = movetext
-                gamedatas.append(gamedata)
+                yield gamedata
                 movetext = ""
                 gamedata = {}
-
-    return gamedatas
 
 def strip_annotations(movetext):
     cleaned_pgn = ''
