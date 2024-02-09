@@ -1,3 +1,5 @@
+import re
+
 def parse_tagpair(tagpair):
     """Parses a single PGN metadata element [tag, tag_data]."""
     tagpair = tagpair[1:-1]  # discard square brackets
@@ -49,3 +51,26 @@ def parse_pgnfile(pgnpath):
                 gamedata = {}
 
     return gamedatas
+
+def strip_annotations(movetext):
+    cleaned_pgn = ''
+    brace_counter = 0
+    for char in movetext:
+        if char == '{':  # opening outer bracket
+            brace_counter += 1
+        elif brace_counter == 0:  # outside an annotation so keep
+            cleaned_pgn += char
+        elif char == '}':
+            brace_counter -= 1
+
+    return cleaned_pgn
+
+
+def remove_repeated_turn_number(movetext):
+    """
+    Remove repeated turn number - Lichess data has these for both white and black.
+    e.g. 1. d4  1... d5  2. c4  2... c6 -> 1. d4   d5  2. c4   c6
+    """
+    turn_marker = r'[0-9]*\.\.\.'
+    cleaned_pgn = re.sub(turn_marker, '', movetext)
+    return cleaned_pgn
