@@ -77,3 +77,10 @@ def clean_whitespace(movetext):
     # replace all multiple spaces with single space
     movetext = re.sub(r'\s+', ' ', movetext)
     return movetext
+
+
+def process_movetext(movetext):
+    movetext = strip_annotations(movetext)
+    movetext = remove_repeated_turn_number(movetext)
+    movetext = clean_whitespace(movetext)
+    return movetext
